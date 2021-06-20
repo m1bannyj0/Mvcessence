@@ -12,6 +12,11 @@ class Essence
     private $gender;
     private $residence;
 
+    const GENDER_MALE = "m";
+    const GENDER_FEMALE = "f";
+    const RESIDENCE_RESIDENT = "resident";
+    const RESIDENCE_NONRESIDENT = "nonresident";
+
     public function __construct($name,
                                 $surname,
                                 $groupNumber,
@@ -30,11 +35,6 @@ class Essence
         $this->gender = $gender;
         $this->residence = $residence;
     }
-
-    const GENDER_MALE = "m";
-    const GENDER_FEMALE = "f";
-    const RESIDENCE_RESIDENT = "resident";
-    const RESIDENCE_NONRESIDENT = "nonresident";
 
     /**
      * @return mixed
