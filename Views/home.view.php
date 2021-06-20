@@ -1,25 +1,5 @@
-<table>
-    <thead>
-    <tr>
-        <th>Имя</th>
-        <th>Фамилия</th>
-        <th>Номер группы</th>
-        <th>Баллы ЕГЭ</th>
-    </tr>
-    </thead>
-    <tbody>
-    <?php foreach ($essences as $essence): ?>
-        <tr>
-            <td><?php echo htmlspecialchars($essence["name"], ENT_QUOTES) ?></td>
-            <td><?php echo htmlspecialchars($essence["surname"], ENT_QUOTES) ?></td>
-            <td><?php echo htmlspecialchars($essence["group_number"], ENT_QUOTES) ?></td>
-            <td><?php echo htmlspecialchars($essence["exam_score"], ENT_QUOTES) ?></td>
-        </tr>
-    <?php endforeach; ?>
-    </tbody>
-</table>
-<div class="pagination">
-    <?php for ($i = 1; $i <= $totalPages; $i++): ?>
-        <a href="?page=<?php echo $i; ?>"><?php echo $i; ?></a>
-    <?php endfor; ?>
-</div>
+<?php
+require_once "partials/header.php";
+require_once "partials/search-form.php";
+require_once "partials/essences-table.php";
+require_once "partials/footer.php";

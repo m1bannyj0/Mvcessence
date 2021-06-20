@@ -37,7 +37,6 @@ class ProfileController extends BaseController
         // Fetching essence data from the database and preparing it for passing into view
         $essenceData = $this->gateway->getEssenceByHash($_COOKIE["hash"]);
         $params["values"] = $essenceData;
-        $params["formAction"] = "edit";
 
         if ($this->action === "edit") {
             $this->render(__DIR__."/../../views/register.view.php", $params);
