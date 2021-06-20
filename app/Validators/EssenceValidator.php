@@ -139,7 +139,7 @@ class EssenceValidator
         } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
             // Validating email with the built-in function "filter_var"
             return "E-mail должен быть в формате \"example@domain.com\".";
-        } elseif (!$this->authManager->checkIfIsAuthorized() &&
+        } elseif (!$this->authManager->checkIfAuthorized() &&
                    $this->essenceDataGateway->getEssenceByEmail($email)) {
             return "Такой e-mail уже существует.";
         }

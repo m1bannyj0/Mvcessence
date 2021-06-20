@@ -6,7 +6,7 @@ use EssenceList\App;
 class ControllerFactory
 {
     public static function makeController(string $controllerName,
-                                          string $requestType,
+                                          string $requestMethod,
                                           string $action,
                                           App $DIContainer)
     {
@@ -15,23 +15,27 @@ class ControllerFactory
         switch ($controllerName)
         {
             case "HomeController":
-                $controller = new HomeController($requestType);
+                $controller = new HomeController($requestMethod);
                 break;
             case "RegisterController":
                 $controller = new RegisterController(
-                    $requestType,
+                    $requestMethod,
                     $DIContainer->get("essenceDataGateway"),
                     $DIContainer->get("essenceValidator"),
                     $DIContainer->get("util"),
-                    $DIContainer->get("authManager")
+                    $DIContainer->get("authManager"),
+                    $DIContainer->get("urlManager")
                 );
                 break;
             case "ProfileController":
                 $controller = new ProfileController(
-                    $requestType,
+                    $requestMethod,
                     $action,
                     $DIContainer->get("essenceDataGateway"),
-                    $DIContainer->get("authManager")
+                    $DIContainer->get("essenceValidator"),
+                    $DIContainer->get("authManager"),
+                    $DIContainer->get("util"),
+                    $DIContainer->get("urlManager")
                 );
                 break;
         }

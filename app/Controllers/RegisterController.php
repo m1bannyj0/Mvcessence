@@ -5,7 +5,7 @@ use EssenceList\AuthManager;
 use EssenceList\Entities\Essence;
 use EssenceList\Database\EssenceDataGateway;
 use EssenceList\Validators\EssenceValidator;
-use EssenceList\Helpers\Util;
+use EssenceList\Helpers\{Util, UrlManager};
 
 
 class RegisterController extends BaseController
@@ -14,29 +14,33 @@ class RegisterController extends BaseController
     private $validator;
     private $util;
     private $authManager;
+    private $urlManager;
 
-    public function __construct(string $requestType,
+    public function __construct(string $requestMethod,
                                 EssenceDataGateway $gateway,
                                 EssenceValidator $validator,
                                 Util $util,
-                                AuthManager $authManager)
+                                AuthManager $authManager,
+                                UrlManager $urlManager)
     {
-        $this->requestType = $requestType;
+        $this->requestMethod = $requestMethod;
         $this->gateway = $gateway;
         $this->validator = $validator;
         $this->util = $util;
         $this->authManager = $authManager;
+        $this->urlManager = $urlManager;
     }
 
     private function processGetRequest()
     {
-        $this->render(__DIR__."/../../views/register.view.php");
+        $params["formAction"] = "register";
+        $this->render(__DIR__."/../../views/register.view.php", $params);
     }
 
     private function processPostRequest()
     {
         $values = $this->grabPostValues();
-        $essence = $this->createEssence($values);
+        $essence = $this->util->createEssence($values);
         $errors = $this->validator->validateAllFields($essence);
 
         if (empty($errors)) {
@@ -44,30 +48,15 @@ class RegisterController extends BaseController
             $essence->setHash($hash);
             $this->gateway->insertEssence($essence);
             $this->authManager->logIn($hash);
-            echo "Успех!";
+            $this->urlManager->redirect("/?notify=1");
         } else {
             // Re-render the form passing $errors and $values arrays
+            $params["formAction"] = "register";
             $params["values"] = $values;
             $params["errors"] = $errors;
             $this->render(__DIR__."/../../views/register.view.php", $params);
         }
 
-    }
-
-    private function createEssence(array $values)
-    {
-        $essence = new Essence(
-            $values["name"],
-            $values["surname"],
-            $values["group_number"],
-            $values["email"],
-            $values["exam_score"],
-            $values["birth_year"],
-            $values["gender"],
-            $values["residence"]
-        );
-
-        return $essence;
     }
 
     private function grabPostValues()
@@ -110,7 +99,14 @@ class RegisterController extends BaseController
 
     public function run()
     {
-        if ($this->requestType === "GET") {
+        // Check if user is not logged in first
+        if ($this->authManager->checkIfAuthorized()) {
+            // If he is we redirect to the profile page
+            // $this->urlManager->redirect("/");
+            $this->urlManager->redirect("/profile");
+        }
+
+        if ($this->requestMethod === "GET") {
             $this->processGetRequest();
         } else {
             $this->processPostRequest();

@@ -33,6 +33,33 @@ class EssenceDataGateway
         ));
     }
 
+    public function updateEssence(Essence $essence)
+    {
+        $statement = $this->pdo->prepare(
+          "UPDATE essences 
+                     SET `name` = :name,
+                         `surname` = :sname,
+                         `gender` = :gender,
+                         `group_number` = :groupnum,
+                         `email` = :email,
+                         `exam_score` = :examscore,
+                         `birth_year` = :byear,
+                         `residence` = :residence
+                     WHERE `hash` = :hash"
+        );
+        $statement->execute(array(
+            "name" => $essence->getName(),
+            "sname" => $essence->getSurname(),
+            "gender" => $essence->getGender(),
+            "groupnum" => $essence->getGroupNumber(),
+            "email" => $essence->getEmail(),
+            "examscore" => $essence->getExamScore(),
+            "byear" => $essence->getBirthYear(),
+            "residence" => $essence->getResidence(),
+            "hash" => $essence->getHash()
+        ));
+    }
+
     public function getEssenceByEmail(string $email)
     {
         $statement = $this->pdo->prepare(
