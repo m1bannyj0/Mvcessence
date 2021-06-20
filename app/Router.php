@@ -22,8 +22,8 @@ class Router
     public function getController(string $uri)
     {
         if (array_key_exists($uri, $this->routes)) {
-            $controllerName = "\\EssenceList\\Controllers\\{$this->routes[$uri]}";
-            return new $controllerName;
+           $controllerName =  "\\EssenceList\\Controllers\\{$this->routes[$uri]}";
+           return new $controllerName;
         }
 
         throw new \Exception("No route defined for this URI.");

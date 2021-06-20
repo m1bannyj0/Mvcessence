@@ -1,5 +1,4 @@
 <?php
-
 use EssenceList\App;
 use EssenceList\Database\{Connection, EssenceDataGateway};
 
