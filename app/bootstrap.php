@@ -12,3 +12,4 @@ $app->bind("essenceDataGateway", new EssenceDataGateway($app->get("connection"))
 $app->bind("essenceValidator", new EssenceValidator($app->get("essenceDataGateway")));
 $app->bind("urlManager", new UrlManager());
 
+
