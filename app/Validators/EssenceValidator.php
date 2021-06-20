@@ -1,4 +1,8 @@
-﻿﻿<?php
+<?php
+namespace EssenceList\Validators;
+
+use EssenceList\Entities\Essence;
+use EssenceList\Database\EssenceDataGateway;
 
 class EssenceValidator
 {
@@ -10,10 +14,33 @@ class EssenceValidator
         $this->sdg = $sdg;
     }
 
-    public function validateAllFields(Essence $essence) {
+    public function validateAllFields(Essence $essence)
+    {
         $errors = array();
+
+        $errors["fname"] = $this->validateName($essence->getName());
+        $errors["surname"] = $this->validateSurname($essence->getSurname());
+        $errors["group_number"] = $this->validateGroupNumber($essence->getGroupNumber());
+        $errors["email"] = $this->validateEmail($essence->getEmail());
+        $errors["exam_score"] = $this->validateExamScore($essence->getExamScore());
+        $errors["birth_year"] = $this->validateBirthYear($essence->getBirthYear());
+        $errors["gender"] = $this->validateGender($essence->getGender());
+        $errors["residence"] = $this->validateResidence($essence->getResidence());
+
+        // Looping through the errors array and removing all "true" values
+        foreach ($errors as $field => $error) {
+            if ($error === true) {
+                unset($errors[$field]);
+            }
+        }
+
+        return $errors;
     }
 
+    /**
+     * @param string $name
+     * @return bool|string
+     */
     private function validateName(string $name)
     {
         $nameLength = mb_strlen($name);
@@ -25,13 +52,17 @@ class EssenceValidator
         }
         elseif ($nameLength > 50) {
             return "Имя не должно содержать более 50 символов, а Вы ввели {$nameLength}.";
-        } elseif ( !(preg_match($pattern,$name)) ) {
+        } elseif (!(preg_match($pattern,$name))) {
             return "Имя должно содержать только русские буквы и начинаться с заглавной буквы.";
         }
 
         return true;
     }
 
+    /**
+     * @param string $surname
+     * @return bool|string
+     */
     private function validateSurname(string $surname)
     {
         $surnameLength = mb_strlen($surname);
@@ -50,6 +81,10 @@ class EssenceValidator
         return true;
     }
 
+    /**
+     * @param string $gender
+     * @return bool|string
+     */
     private function validateGender(string $gender)
     {
         if ($gender !== Essence::GENDER_MALE || $gender !== Essence::GENDER_FEMALE) {
@@ -59,6 +94,10 @@ class EssenceValidator
         return true;
     }
 
+    /**
+     * @param string $groupNumber
+     * @return bool|string
+     */
     private function validateGroupNumber(string $groupNumber)
     {
         $groupNumberLength = mb_strlen($groupNumber);
@@ -76,21 +115,27 @@ class EssenceValidator
         return true;
     }
 
+    /**
+     * @param int $examScore
+     * @return bool|string
+     */
     private function validateExamScore(int $examScore)
     {
-        if ($examScore < 0) {
-            return "Баллы ЕГЭ не могут быть отрицательным числом.";
-        } elseif ($examScore > 300) {
-            return "Сумма баллов ЕГЭ не может превышать 300.";
+        if ($examScore < 90 || $examScore > 300) {
+            return "Баллы ЕГЭ должны находиться в интервале от 90 до 300 включительно.";
         }
-
         return true;
     }
 
-    private function validateEmail(string $email) {
+    /**
+     * @param string $email
+     * @return bool|string
+     */
+    private function validateEmail(string $email)
+    {
         if (mb_strlen($email) === 0) {
             return "Вы не заполнили обязательное поле \"E-mail\".";
-        } elseif ( !filter_var($email, FILTER_VALIDATE_EMAIL) ) {
+        } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
             // Validating email with the built-in function "filter_var"
             return "E-mail должен быть в формате \"example@domain.com\".";
         } elseif ( !$this->sdg->getUserByEmail($email) ){
@@ -100,15 +145,25 @@ class EssenceValidator
         return true;
     }
 
-    private function validateBirthYear(int $birthYear) {
+    /**
+     * @param int $birthYear
+     * @return bool|string
+     */
+    private function validateBirthYear(int $birthYear)
+    {
         if ($birthYear < 1910 || $birthYear > 2008) {
-            return "Год рождения должен находиться в промежутке от 1910 до 2008.";
+            return "Год рождения должен находиться в интервале от 1910 до 2008 включительно.";
         }
 
         return true;
     }
 
-    private function validateResidence(string $residence) {
+    /**
+     * @param string $residence
+     * @return bool|string
+     */
+    private function validateResidence(string $residence)
+    {
         if ($residence !== Essence::RESIDENCE_RESIDENT || $residence !== Essence::RESIDENCE_NONRESIDENT) {
             return "Вы не выбрали свое местоположение.";
         }

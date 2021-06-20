@@ -1,0 +1,9 @@
+{
+  "name": "partial/essence-list",
+  "license": "MIT",
+  "autoload": {
+    "psr-4": {
+      "EssenceList\\": "app/"
+    }
+  }
+}
