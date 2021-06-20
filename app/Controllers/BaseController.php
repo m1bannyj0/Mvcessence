@@ -1,5 +1,4 @@
 <?php
-
 namespace EssenceList\Controllers;
 
 abstract class BaseController
