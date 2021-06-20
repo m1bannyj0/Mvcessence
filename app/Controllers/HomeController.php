@@ -61,7 +61,12 @@ class HomeController extends BaseController
         $this->notify = isset($_GET["notify"]) ? intval($_GET["notify"]) : null;
     }
 
-    private function index()
+    /**
+     * Index action.
+     *
+     * @return void
+     */
+    private function index(): void
     {
         if (isset($_GET["search"])) {
             $this->showSearchResults();
@@ -128,8 +133,10 @@ class HomeController extends BaseController
 
     /**
      * Renders table containing all essences
+     *
+     * @return void
      */
-    private function showEssencesTable()
+    private function showEssencesTable(): void
     {
         $search = null;
         $order = $this->paginationInfo["order"];
@@ -159,13 +166,15 @@ class HomeController extends BaseController
             "isAuth"
         );
 
-        $this->render(__DIR__ . "/../../views/home.view.php", $params);
+        $this->render(__DIR__."/../../views/home.view.php",$params);
     }
 
     /**
      * Renders table containing search results
+     *
+     * @return void
      */
-    private function showSearchResults()
+    private function showSearchResults(): void
     {
         $search = $_GET["search"];
         $order = $this->paginationInfo["order"];
@@ -196,16 +205,18 @@ class HomeController extends BaseController
             "isAuth"
         );
 
-        $this->render(__DIR__ . "/../../views/home.view.php", $params);
+        $this->render(__DIR__."/../../views/home.view.php",$params);
     }
 
     /**
      * Invokes controller's action based on $action property
+     *
+     * @return void
      */
-    public function run()
+    public function run(): void
     {
-        $action = $this->action;
+      $action = $this->action;
 
-        $this->$action();
+      $this->$action();
     }
 }

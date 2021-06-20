@@ -23,8 +23,10 @@ class EssenceDataGateway
      * Inserts new Essence into `essences` table
      *
      * @param Essence $essence
+     *
+     * @return void
      */
-    public function insertEssence(Essence $essence)
+    public function insertEssence(Essence $essence): void
     {
         $statement = $this->pdo->prepare(
             "INSERT INTO essences(name, surname, gender, group_number, 
@@ -48,8 +50,10 @@ class EssenceDataGateway
      * Updates a essence row in `essences` table
      *
      * @param Essence $essence
+     *
+     * @return void
      */
-    public function updateEssence(Essence $essence)
+    public function updateEssence(Essence $essence): void
     {
         $statement = $this->pdo->prepare(
           "UPDATE essences 
@@ -81,9 +85,9 @@ class EssenceDataGateway
      *
      * @param string $email
      *
-     * @return int
+     * @return bool
      */
-    public function checkIfEmailExists(string $email): int
+    public function checkIfEmailExists(string $email): bool
     {
         $statement = $this->pdo->prepare(
             "SELECT COUNT(*) FROM essences WHERE email=?"
@@ -91,7 +95,9 @@ class EssenceDataGateway
         $statement->bindParam(1, $email, \PDO::PARAM_STR);
         $statement->execute();
 
-        return (int)$statement->fetchColumn();
+        $rowCount = (int)$statement->fetchColumn();
+
+        return $rowCount > 0 ? true : false;
     }
 
     /**

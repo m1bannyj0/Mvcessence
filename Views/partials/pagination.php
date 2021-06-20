@@ -21,8 +21,8 @@
         <li class="uk-disabled"><span>...</span></li>
     <?php endif; ?>
 
-    <?php for ($i = $start; $i <= $end; $i++): ?>
-        <?php if ($i === $page): ?>
+    <?php for($i = $start; $i <= $end; $i++): ?>
+        <?php if($i === $page): ?>
             <li class="uk-active"><span class="uk-text-primary"><?php echo $i; ?></span></li>
         <?php else: ?>
             <li>
@@ -42,7 +42,7 @@
                 $direction,
                 $search,
                 $totalPages
-            ), ENT_QUOTES); ?>"><?php echo htmlspecialchars($totalPages, ENT_QUOTES) ?></a></li>
+            ), ENT_QUOTES); ?>"><?php echo htmlspecialchars($totalPages,ENT_QUOTES) ?></a></li>
     <?php endif; ?>
 
     <?php if ($page < $totalPages): ?>
