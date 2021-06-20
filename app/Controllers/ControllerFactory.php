@@ -7,6 +7,7 @@ class ControllerFactory
 {
     public static function makeController(string $controllerName,
                                           string $requestType,
+                                          string $action,
                                           App $DIContainer)
     {
         $controller = null;
@@ -20,7 +21,17 @@ class ControllerFactory
                 $controller = new RegisterController(
                     $requestType,
                     $DIContainer->get("essenceDataGateway"),
-                    $DIContainer->get("essenceValidator")
+                    $DIContainer->get("essenceValidator"),
+                    $DIContainer->get("util"),
+                    $DIContainer->get("authManager")
+                );
+                break;
+            case "ProfileController":
+                $controller = new ProfileController(
+                    $requestType,
+                    $action,
+                    $DIContainer->get("EssenceDataGateway"),
+                    $DIContainer->get("authManager")
                 );
                 break;
         }

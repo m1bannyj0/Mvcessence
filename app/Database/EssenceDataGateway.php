@@ -17,8 +17,8 @@ class EssenceDataGateway
     {
         $statement = $this->pdo->prepare(
             "INSERT INTO essences(first_name, surname, gender, group_number, 
-                                            email, exam_score, birth_year, residence)
-                       VALUES (:name, :sname, :gender, :groupnum, :email, :examscore, :byear, :residence)"
+                                            email, exam_score, birth_year, residence, hash)
+                       VALUES (:name, :sname, :gender, :groupnum, :email, :examscore, :byear, :residence, :hash)"
         );
         $statement->execute(array(
            "name" => $essence->getName(),
@@ -28,7 +28,8 @@ class EssenceDataGateway
            "email" => $essence->getEmail(),
            "examscore" => $essence->getExamScore(),
            "byear" => $essence->getBirthYear(),
-            "residence" => $essence->getResidence()
+            "residence" => $essence->getResidence(),
+            "hash" => $essence->getHash()
         ));
     }
 
@@ -38,6 +39,18 @@ class EssenceDataGateway
             "SELECT * FROM essences WHERE email=?"
         );
         $statement->bindParam(1, $email, \PDO::PARAM_STR);
+        $statement->execute();
+        $row = $statement->fetch(\PDO::FETCH_ASSOC);
+
+        return $row;
+    }
+
+    public function getEssenceByHash(string $hash)
+    {
+        $statement = $this->pdo->prepare(
+            "SELECT * FROM essences WHERE hash=?"
+        );
+        $statement->bindParam(1,$hash,\PDO::PARAM_STR);
         $statement->execute();
         $row = $statement->fetch(\PDO::FETCH_ASSOC);
 

@@ -18,7 +18,7 @@ class EssenceValidator
     {
         $errors = array();
 
-        $errors["fname"] = $this->validateName($essence->getName());
+        $errors["name"] = $this->validateName($essence->getName());
         $errors["surname"] = $this->validateSurname($essence->getSurname());
         $errors["group_number"] = $this->validateGroupNumber($essence->getGroupNumber());
         $errors["email"] = $this->validateEmail($essence->getEmail());
@@ -83,7 +83,7 @@ class EssenceValidator
      */
     private function validateGender(string $gender)
     {
-        if ($gender !== Essence::GENDER_MALE || $gender !== Essence::GENDER_FEMALE) {
+        if ($gender !== Essence::GENDER_MALE && $gender !== Essence::GENDER_FEMALE) {
             return "Вы не выбрали свой пол.";
         }
 
@@ -161,7 +161,7 @@ class EssenceValidator
      */
     private function validateResidence(string $residence)
     {
-        if ($residence !== Essence::RESIDENCE_RESIDENT ||
+        if ($residence !== Essence::RESIDENCE_RESIDENT &&
             $residence !== Essence::RESIDENCE_NONRESIDENT) {
             return "Вы не выбрали свое местоположение.";
         }

@@ -1,7 +1,7 @@
 <?php
-use EssenceList\App;
+use EssenceList\{App, AuthManager};
 use EssenceList\Validators\EssenceValidator;
-use EssenceList\Helpers\UrlManager;
+use EssenceList\Helpers\{UrlManager, Util};
 use EssenceList\Database\{Connection, EssenceDataGateway};
 
 $app = new App();
@@ -11,5 +11,7 @@ $app->bind("connection", (new Connection)->make($app->get("config")));
 $app->bind("essenceDataGateway", new EssenceDataGateway($app->get("connection")));
 $app->bind("essenceValidator", new EssenceValidator($app->get("essenceDataGateway")));
 $app->bind("urlManager", new UrlManager());
+$app->bind("util", new Util());
+$app->bind("authManager", new AuthManager());
 
 
