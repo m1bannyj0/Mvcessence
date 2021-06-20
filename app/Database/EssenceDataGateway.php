@@ -13,6 +13,9 @@ class EssenceDataGateway
         $this->pdo = $pdo;
     }
 
+    /**
+     * @param Essence $essence
+     */
     public function insertEssence(Essence $essence)
     {
         $statement = $this->pdo->prepare(
@@ -33,6 +36,9 @@ class EssenceDataGateway
         ));
     }
 
+    /**
+     * @param Essence $essence
+     */
     public function updateEssence(Essence $essence)
     {
         $statement = $this->pdo->prepare(
@@ -60,6 +66,10 @@ class EssenceDataGateway
         ));
     }
 
+    /**
+     * @param string $email
+     * @return mixed
+     */
     public function getEssenceByEmail(string $email)
     {
         $statement = $this->pdo->prepare(
@@ -67,11 +77,40 @@ class EssenceDataGateway
         );
         $statement->bindParam(1, $email, \PDO::PARAM_STR);
         $statement->execute();
-        $row = $statement->fetch(\PDO::FETCH_ASSOC);
 
-        return $row;
+        return $statement->fetch(\PDO::FETCH_ASSOC);
     }
 
+    /**
+     * @return int
+     */
+    public function countTableRows(): int
+    {
+        $statement = $this->pdo->prepare(
+            "SELECT count(*) FROM essences"
+        );
+        $statement->execute();
+
+        return (int)$statement->fetchColumn();
+    }
+
+    public function getEssences(int $offset, int $limit)
+    {
+        $statement = $this->pdo->prepare(
+          "SELECT name, surname, group_number, exam_score
+                     FROM essences
+                     LIMIT {$offset}, {$limit}   
+          "
+        );
+        $statement->execute();
+
+        return $statement->fetchAll(\PDO::FETCH_ASSOC);
+    }
+
+    /**
+     * @param string $hash
+     * @return mixed
+     */
     public function getEssenceByHash(string $hash)
     {
         $statement = $this->pdo->prepare(
@@ -79,8 +118,7 @@ class EssenceDataGateway
         );
         $statement->bindParam(1,$hash,\PDO::PARAM_STR);
         $statement->execute();
-        $row = $statement->fetch(\PDO::FETCH_ASSOC);
 
-        return $row;
+        return $statement->fetch(\PDO::FETCH_ASSOC);
     }
 }

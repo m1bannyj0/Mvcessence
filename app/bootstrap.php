@@ -1,7 +1,7 @@
 <?php
 use EssenceList\{App, AuthManager};
 use EssenceList\Validators\EssenceValidator;
-use EssenceList\Helpers\{UrlManager, Util};
+use EssenceList\Helpers\{UrlManager, Util, Pager};
 use EssenceList\Database\{Connection, EssenceDataGateway};
 
 $app = new App();
@@ -16,6 +16,7 @@ $app->bind("essenceValidator", new EssenceValidator(
             ));
 $app->bind("urlManager", new UrlManager());
 $app->bind("util", new Util());
+$app->bind("pager", new Pager());
 
 
 
