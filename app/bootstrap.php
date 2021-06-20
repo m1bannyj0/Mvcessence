@@ -8,10 +8,14 @@ $app = new App();
 
 $app->bind("config", require_once "../config.php");
 $app->bind("connection", (new Connection)->make($app->get("config")));
+$app->bind("authManager", new AuthManager());
 $app->bind("essenceDataGateway", new EssenceDataGateway($app->get("connection")));
-$app->bind("essenceValidator", new EssenceValidator($app->get("essenceDataGateway")));
+$app->bind("essenceValidator", new EssenceValidator(
+            $app->get("essenceDataGateway"),
+                  $app->get("authManager")
+            ));
 $app->bind("urlManager", new UrlManager());
 $app->bind("util", new Util());
-$app->bind("authManager", new AuthManager());
+
 
 

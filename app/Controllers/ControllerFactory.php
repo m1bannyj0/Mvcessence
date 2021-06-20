@@ -30,7 +30,7 @@ class ControllerFactory
                 $controller = new ProfileController(
                     $requestType,
                     $action,
-                    $DIContainer->get("EssenceDataGateway"),
+                    $DIContainer->get("essenceDataGateway"),
                     $DIContainer->get("authManager")
                 );
                 break;

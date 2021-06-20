@@ -1,5 +1,4 @@
 <?php
-
 namespace EssenceList;
 
 class AuthManager
@@ -9,7 +8,7 @@ class AuthManager
      */
     public function logIn(string $hash)
     {
-        setcookie("hash", $hash, time() + 3600 * 24 * 365 * 10, "/", null, false, true);
+        setcookie("hash", $hash,time()+3600*24*365*10, "/", null, false,true);
     }
 
     public function checkIfIsAuthorized()

@@ -1,17 +1,21 @@
 <?php
 namespace EssenceList\Validators;
 
+use EssenceList\AuthManager;
 use EssenceList\Entities\Essence;
 use EssenceList\Database\EssenceDataGateway;
 
 class EssenceValidator
 {
     private $essenceDataGateway;
+    private $authManager;
 
-    public function __construct(EssenceDataGateway $essenceDataGateway)
+    public function __construct(EssenceDataGateway $essenceDataGateway, AuthManager $authManager)
     {
-        // Injecting EssenceDataGateway object for assistance with email validation
+        // Injecting EssenceDataGateway and AuthManager for assistance with email validation
         $this->essenceDataGateway = $essenceDataGateway;
+        $this->authManager = $authManager;
+
     }
 
     public function validateAllFields(Essence $essence)
@@ -135,7 +139,8 @@ class EssenceValidator
         } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
             // Validating email with the built-in function "filter_var"
             return "E-mail должен быть в формате \"example@domain.com\".";
-        } elseif ($this->essenceDataGateway->getEssenceByEmail($email) ){
+        } elseif (!$this->authManager->checkIfIsAuthorized() &&
+                   $this->essenceDataGateway->getEssenceByEmail($email)) {
             return "Такой e-mail уже существует.";
         }
 

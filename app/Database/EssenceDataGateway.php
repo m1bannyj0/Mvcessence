@@ -16,7 +16,7 @@ class EssenceDataGateway
     public function insertEssence(Essence $essence)
     {
         $statement = $this->pdo->prepare(
-            "INSERT INTO essences(first_name, surname, gender, group_number, 
+            "INSERT INTO essences(name, surname, gender, group_number, 
                                             email, exam_score, birth_year, residence, hash)
                        VALUES (:name, :sname, :gender, :groupnum, :email, :examscore, :byear, :residence, :hash)"
         );

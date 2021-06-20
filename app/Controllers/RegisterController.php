@@ -49,7 +49,7 @@ class RegisterController extends BaseController
             // Re-render the form passing $errors and $values arrays
             $params["values"] = $values;
             $params["errors"] = $errors;
-            $this->render(__DIR__ . "/../../views/register.view.php", $params);
+            $this->render(__DIR__."/../../views/register.view.php", $params);
         }
 
     }
@@ -104,7 +104,7 @@ class RegisterController extends BaseController
 
     private function render($file, $params = [])
     {
-        extract($params, EXTR_SKIP);
+        extract($params,EXTR_SKIP);
         return require_once "{$file}";
     }
 
