@@ -7,17 +7,35 @@ use EssenceList\Database\EssenceDataGateway;
 
 class EssenceValidator
 {
+    /**
+     * @var EssenceDataGateway
+     */
     private $essenceDataGateway;
+
+    /**
+     * @var AuthManager
+     */
     private $authManager;
 
+    /**
+     * EssenceValidator constructor.
+     * @param EssenceDataGateway $essenceDataGateway
+     * @param AuthManager $authManager
+     */
     public function __construct(EssenceDataGateway $essenceDataGateway, AuthManager $authManager)
     {
-        // Injecting EssenceDataGateway and AuthManager for assistance with email validation
         $this->essenceDataGateway = $essenceDataGateway;
         $this->authManager = $authManager;
 
     }
 
+    /**
+     * Returns an array of validation errors
+     *
+     * @param Essence $essence
+     *
+     * @return array
+     */
     public function validateAllFields(Essence $essence)
     {
         $errors = array();
@@ -39,6 +57,7 @@ class EssenceValidator
 
     /**
      * @param string $name
+     *
      * @return bool|string
      */
     private function validateName(string $name)
@@ -61,6 +80,7 @@ class EssenceValidator
 
     /**
      * @param string $surname
+     *
      * @return bool|string
      */
     private function validateSurname(string $surname)
@@ -83,6 +103,7 @@ class EssenceValidator
 
     /**
      * @param string $gender
+     *
      * @return bool|string
      */
     private function validateGender(string $gender)
@@ -96,6 +117,7 @@ class EssenceValidator
 
     /**
      * @param string $groupNumber
+     *
      * @return bool|string
      */
     private function validateGroupNumber(string $groupNumber)
@@ -108,7 +130,7 @@ class EssenceValidator
             return "Вы не заполнили обязательное поле \"Номер группы\"";
         } elseif ($groupNumberLength < 2 || $groupNumberLength > 5) {
             return "Количество символов в номере группы должно находиться
-                    в интервале от 2 до 5, а Вы ввели {$groupNumberLength}";
+                    в интервале от 2 до 5, а Вы ввели {$groupNumberLength}.";
         } elseif ( !(preg_match($pattern, $groupNumber)) ) {
             return "Номер группы может содержать только цифры и русские буквы.";
         }
@@ -118,18 +140,20 @@ class EssenceValidator
 
     /**
      * @param int $examScore
+     *
      * @return bool|string
      */
     private function validateExamScore(int $examScore)
     {
-        if ($examScore < 90 || $examScore > 300) {
-            return "Баллы ЕГЭ должны находиться в интервале от 90 до 300 включительно.";
+        if ($examScore < 50 || $examScore > 300) {
+            return "Баллы ЕГЭ должны находиться в интервале от 50 до 300 включительно.";
         }
         return true;
     }
 
     /**
      * @param string $email
+     *
      * @return bool|string
      */
     private function validateEmail(string $email)
@@ -149,6 +173,7 @@ class EssenceValidator
 
     /**
      * @param int $birthYear
+     *
      * @return bool|string
      */
     private function validateBirthYear(int $birthYear)
@@ -162,6 +187,7 @@ class EssenceValidator
 
     /**
      * @param string $residence
+     *
      * @return bool|string
      */
     private function validateResidence(string $residence)

@@ -1,0 +1,35 @@
+.essences-table {
+    text-align: center;
+}
+
+.essences-table th {
+    text-align: center;
+}
+
+.essence-form__field--margin-top {
+    margin-top: 10px;
+}
+
+.error-text {
+    color: #f0506e;
+}
+
+.essences-list__search--flex {
+    display: flex;
+    justify-content: flex-end;
+    align-items: baseline;
+}
+
+.essences-list__search-message--flex {
+    margin-right: auto;
+}
+
+.footer {
+    height: 80px
+}
+
+.footer-container--flex {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

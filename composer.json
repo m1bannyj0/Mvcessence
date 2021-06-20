@@ -5,5 +5,7 @@
         "psr-4": {
             "EssenceList\\": "app/"
         }
+    },
+    "require": {
     }
 }

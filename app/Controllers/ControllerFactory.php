@@ -5,8 +5,15 @@ use EssenceList\App;
 
 class ControllerFactory
 {
-    public static function makeController(string $controllerName,
-                                          string $requestMethod,
+    /**
+     * @param string $controllerName
+     * @param string $requestMethod
+     * @param string $action
+     * @param App $DIContainer
+     * @return null|HomeController|ProfileController|RegisterController
+     */
+    public static function makeController(string $requestMethod,
+                                          string $controllerName,
                                           string $action,
                                           App $DIContainer)
     {
@@ -17,13 +24,16 @@ class ControllerFactory
             case "HomeController":
                 $controller = new HomeController(
                     $requestMethod,
+                    $action,
                     $DIContainer->get("pager"),
-                    $DIContainer->get("essenceDataGateway")
+                    $DIContainer->get("essenceDataGateway"),
+                    $DIContainer->get("authManager")
                 );
                 break;
             case "RegisterController":
                 $controller = new RegisterController(
                     $requestMethod,
+                    $action,
                     $DIContainer->get("essenceDataGateway"),
                     $DIContainer->get("essenceValidator"),
                     $DIContainer->get("util"),
